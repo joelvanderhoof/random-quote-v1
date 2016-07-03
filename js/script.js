@@ -13,21 +13,21 @@ var movieQuotes = [
         source: "Conan",
         citation: "Conan the Barbarian",
         year: 1982,
-        tags: ["nurting"]
+        tags: ["nurting", "compassionate"]
     },
     {
         quote: "Do it! Kill me!  Come on!  What are you waiting for?!",
         source: "Major Alan \"Dutch\" Schaefer",
         citation: "Predator",
         year: 1987,
-        tags: ["encouraging"]
+        tags: ["encouraging", "patient"]
     },
     {
         quote: "If it bleeds, we can kill it.",
         source: "Major Alan \"Dutch\" Schaefer",
         citation: "Predator",
         year: 1987,
-        tags: ["insightful"]
+        tags: ["insightful", "mentor"]
     },
     {
         quote: "Get to the choppa!",
@@ -41,7 +41,7 @@ var movieQuotes = [
         source: "Major Alan \"Dutch\" Schaefer",
         citation: "Predator",
         year: 1985,
-        tags: ["ironic"]
+        tags: ["ironic", "paternal"]
     },
     {
         quote: "I'll be back.",
@@ -55,7 +55,7 @@ var movieQuotes = [
         source: "Detective John Kimble",
         citation: "Kindergarten Cop",
         year: 1990,
-        tags: ["inquiry"]
+        tags: ["inquisitive", "sharing"]
     },
     {
         quote: "What killed the dinosaurs?  The Ice Age!!!!",
@@ -78,10 +78,15 @@ function getRandomQuote() {
     var randomQuoteIndex = Math.floor(Math.random() * (movieQuotes.length));
     var splicedQuote = movieQuotes.splice(randomQuoteIndex, 1)[0];
     usedQuotes.push(splicedQuote);
-    console.log(movieQuotes.length);
     return splicedQuote;
 }
 
+function getRandomColor() {
+    // returns a random 6 digit number as a string
+    "use strict";
+    var hex = Math.floor(Math.random() * 0xFFFFFF);
+    return "#" + ("000000" + hex.toString(16)).substr(-6);
+}
 
 function printQuote(message) {
     //calls getRandomQuote()
@@ -97,6 +102,9 @@ function printQuote(message) {
         message += '<span class="citation">' + randomQuote.year + '</span>';
     }
     document.getElementById('quote-box').innerHTML = message;
+    document.body.style.backgroundColor = getRandomColor();
 }
    
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
+
+var intervalID = window.setInterval(printQuote, 5000);
