@@ -1,12 +1,9 @@
-// event listener to respond to clicks on the page
-// when user clicks anywhere on the page, the "makeQuote" function is called
-
 var quoteObject;
 var message = '';
+var usedQuotes = [];
 
 var movieQuotes = [
     //an array of objects which consist of movie quotes and info
-    //TO DO Add more properties to the quote object. For example, a tags property could include a list of "tags" like -- "humor", "business", "politics" -- to categorize each quote.
     
     {
         quote: "Conan what is best in life? To crush your enemies, see them driven before you, and to hear the lamentation of their women!",
@@ -66,21 +63,35 @@ var movieQuotes = [
     }
 ];
 
+
 function getRandomQuote() {
     //selects a random quote object from the quotes array
     //returns the randomly selected quote object
     
     "use strict";
+    if (movieQuotes.length === 0) {
+        movieQuotes = usedQuotes;
+        usedQuotes = [];
+    }
     var randomQuoteIndex = Math.floor(Math.random() * (movieQuotes.length));
-    quoteObject = movieQuotes[randomQuoteIndex];
-    return quoteObject;
+    var splicedQuote = movieQuotes.splice(randomQuoteIndex, 1)[0];
+    usedQuotes.push(splicedQuote);
+    
+    return splicedQuote;
 }
 
+function getRandomColor() {
+    // returns a random 6 digit hex value as a string
+    
+    "use strict";
+    var hexValue = Math.floor(Math.random() * 0xFFFFFF);
+    return "#" + ("000000" + hexValue.toString(16)).substr(-6);
+}
 
 function printQuote(message) {
     //calls getRandomQuote()
     //prints the random quote
-    //TO DO Don't display a random quote more than once until ALL quotes from the array have been displayed.
+    //changes background color with getRandomColor()
     
     "use strict";
     var randomQuote = getRandomQuote();
@@ -93,8 +104,12 @@ function printQuote(message) {
         message += '<span class="citation">' + randomQuote.year + '</span>';
     }
     document.getElementById('quote-box').innerHTML = message;
+    document.body.style.backgroundColor = getRandomColor();
 }
+
+var intervalID = window.setInterval(printQuote, 5000);
+//calls printQuote after a set interval
    
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
-//TO DO Randomly change the background color of the page, when the quote changes
-//TO DO Refresh the quote after a set amount of time. For example, every 30 seconds, make a new quote appear. (You can use the setInterval() or setTimeout() method to do this -- see the links in the Project Resources listing.)
+// event listener to respond to clicks on the page
+// when user clicks anywhere on the page, the makeQuote function is called
